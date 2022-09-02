@@ -22,7 +22,6 @@ namespace TodoList.store
                     File.WriteAllText(file, value);
                 }
             }
-            
         }
         public string GetOrCreateDirectory() {
             var folder = Path.Combine(_path, "TodoItems");
