@@ -28,7 +28,13 @@
 				{
 					<tr>
 						<td width="40%">
-							@item.Item
+							@if (@item.IsDone)
+							{
+								<div class="completed" >@item.Item</div>
+							} else
+							{
+								<div >@item.Item</div>
+							}
 						</td>
 						<td width="40%">
 							@item.IsDone
@@ -56,3 +62,9 @@
 		<p>There are no Todo Items on file.</p>
 	}
 </div>
+<script>
+	$(document).ready(function() {
+		var completed = $(".completed")
+		completed.css('text-decoration-line', 'line-through')
+	})
+</script>
