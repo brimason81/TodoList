@@ -23,8 +23,11 @@ namespace TodoList.Controllers
         [HttpPost]
         public IActionResult Add(TodoItem todo) {
             // todo.Id = 0;
-            _todoStore.AddOrUpdateTodoItem(todo);
-            return View();
+            if (ModelState.IsValid) { 
+              _todoStore.AddOrUpdateTodoItem(todo);
+               return View();
+            }
+            return View(todo);
         }
         [Route("/Todo/Delete/{item}")]
         public IActionResult Delete(string item) {
