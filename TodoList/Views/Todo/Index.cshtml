@@ -21,6 +21,7 @@
 					<th>Completed</th>
 					<th>Mark As Complete</th>
 					<th></th>
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -33,10 +34,10 @@
 								<div class="completed" >@item.Item</div>
 							} else
 							{
-								<div >@item.Item</div>
+								<div>@item.Item</div>
 							}
 						</td>
-						<td width="40%">
+						<td width="25%">
 							@item.IsDone
 						</td>
 						<td width="15%">
@@ -50,12 +51,17 @@
 								}
 							</a>
 						</td>
-						<td width="5%">
-							<a class="btn btn-danger" asp-controller="Todo" asp-action="Delete" asp-route-item="@item.Item">Delete</a>
+						<td class="text-center">
+							<div class="w-75 btn-group" role="group">
+								<a class="btn btn-danger" asp-controller="Todo" asp-action="Delete" asp-route-item="@item.Item">Delete</a>
+						
+								<a class="btn btn-primary" asp-controller="Todo" asp-action="Edit" asp-route-item="@item.Item">Update</a>
+							</div>
 						</td>
+							
+						
 					</tr>
 				}
-				
 			</tbody>
 		</table>
 	} else {
