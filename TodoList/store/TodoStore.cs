@@ -12,12 +12,25 @@ namespace TodoList.store
             _path = @"wwwroot";
             _serializer = new NewtonsoftJsonSerializer();
         }
+        public int GetItemId() {
+            int id;
+            if (GetAllTodos().Count() < 1)
+            {
+                id = 1;
+            }
+            else { 
+                id = GetAllTodos().Count() + 1;
+            }
+            return id;
+        }
         public void AddOrUpdateTodoItem(TodoItem item) {
+
             if (item.Item != null)
             {
                 var file = GetPathForItem(item.Item);
-                if (file != null)
-                {
+                if (file != null) // differnet condition for update
+                {   
+                    item.Id = GetItemId();
                     var value = _serializer.Serialize(item);
                     File.WriteAllText(file, value);
                 }
@@ -49,6 +62,10 @@ namespace TodoList.store
         public void DeleteTodo(string item) {
             var todo = GetPathForItem(item);
             if (File.Exists(todo)) File.Delete(todo);           
+        }
+        public void UpdateTodo(string item) {
+            var todo = GetTodo(GetPathForItem(item));
+            
         }
         public void HandleIsDone(string item) {
             var path = GetPathForItem(item);
