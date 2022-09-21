@@ -29,6 +29,9 @@
 		</div>
 	</form>
 }
+@section Scripts {
+	@{ <partial name="_ValidationScriptsPartial"/>}
+}
 <script>
 	$(function () {
 		$.post().done(function () {
