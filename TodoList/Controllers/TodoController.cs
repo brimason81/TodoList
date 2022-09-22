@@ -22,16 +22,38 @@ namespace TodoList.Controllers
         }
         [HttpPost]
         public IActionResult Add(TodoItem todo) {
-            // todo.Id = 0;
+            todo.Id = _todoStore.GetItemId();
             if (ModelState.IsValid) { 
               _todoStore.AddOrUpdateTodoItem(todo);
                return View();
             }
             return View(todo);
         }
-        [Route("/Todo/Delete/{item}")]
-        public IActionResult Delete(string item) {
-            _todoStore.DeleteTodo(item);
+        public IActionResult Edit(int id)
+        {
+            if (id == null || id == 0) { 
+                return NotFound();
+            }
+            var todo = _todoStore.GetTodoById(id);
+            if (todo == null) {
+                return NotFound();
+            }
+            return View(todo);
+        }
+        [HttpPost]
+        public IActionResult Edit(TodoItem todo)
+        {
+            if (ModelState.IsValid)
+            {
+                _todoStore.AddOrUpdateTodoItem(todo);
+                return View();
+            }
+            return RedirectToAction("Index");
+        }
+
+        [Route("/Todo/Delete/{id}")]
+        public IActionResult Delete(int id) {
+            _todoStore.DeleteTodo(id);
             return RedirectToAction("Index");
         }
         [Route("/Todo/HandleIsDone/{item}")]
