@@ -1,0 +1,38 @@
+﻿@model TodoItem
+@{
+	ViewData["Title"] = "Edit Todo Item";
+}
+@{
+	<form method="post" asp-action="Edit"> 
+		<input form="Id" hidden/> 
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div class="border p-3">
+			<div class="form-group row">
+				<h2>Edit Item</h2>
+			</div>
+			<div class="row">
+				<div class="col-2"></div>
+				<div class="col-8">
+					<div class="form-group row m-3">
+						<div class="col-12">
+							<input asp-for="Item" type="text" class="form-control" autofocus >
+							<span asp-validation-for="Item" class="alert-danger"></span>
+						</div>
+					</div>
+					<div class="form-group row m-3">
+						<div class="col-6">
+							<input style="width: 100%;" value="Edit" type="submit" class="btn btn-primary"> 
+						</div>
+						<div class="col-6">
+							<a style="width: 100%;" class="btn btn-success" asp-controller="Todo" asp-action="Index">Home</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-2"></div>
+			</div>
+		</div>	
+	</form>
+}
+@section Scripts {
+	@{ <partial name="_ValidationScriptsPartial"/>}
+}
