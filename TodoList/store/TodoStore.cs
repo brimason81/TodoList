@@ -27,13 +27,14 @@ namespace TodoList.store
 
             if (item.Item != null)
             {
-                var file = GetPathForItem(item.Item);
-                if (file != null) // differnet condition for update
-                {   
-                    item.Id = GetItemId();
-                    var value = _serializer.Serialize(item);
-                    File.WriteAllText(file, value);
+                if (GetTodoById(item.Id) != null) {
+                    DeleteTodo(item.Id);
                 }
+                var file = GetPathForItem(item.Item);
+                
+                var value = _serializer.Serialize(item);
+                File.WriteAllText(file, value);
+              
             }
         }
         public string GetOrCreateDirectory() {
@@ -59,13 +60,20 @@ namespace TodoList.store
             var content = File.ReadAllText(path);
             return _serializer.Deserialize<TodoItem>(content);
         }
-        public void DeleteTodo(string item) {
-            var todo = GetPathForItem(item);
-            if (File.Exists(todo)) File.Delete(todo);           
+        public TodoItem GetTodoById(int id) { 
+            TodoItem item = new TodoItem();
+            foreach (var todo in GetAllTodos()) {
+                if (todo.Id == id)
+                {
+                    item = todo;
+                }
+            }
+            return item;
         }
-        public void UpdateTodo(string item) {
-            var todo = GetTodo(GetPathForItem(item));
-            
+        public void DeleteTodo(int id) {
+            var todo = GetTodoById(id);
+            var file = GetPathForItem(todo.Item);
+            if (File.Exists(file)) File.Delete(file);           
         }
         public void HandleIsDone(string item) {
             var path = GetPathForItem(item);
