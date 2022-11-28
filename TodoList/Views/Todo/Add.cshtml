@@ -1,5 +1,8 @@
 ﻿@model TodoItem
 @{
+	ViewData["Title"] = "Add Todo Item";
+}
+@{
 	<form method="post" asp-action="Add">
 		<div class="border p-3">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
