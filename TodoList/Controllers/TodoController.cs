@@ -6,9 +6,9 @@ namespace TodoList.Controllers
 {
     public class TodoController : Controller
     {
-        private readonly TodoStore _todoStore;
+        private readonly ITodoStore _todoStore;
 
-        public TodoController(TodoStore store)
+        public TodoController(ITodoStore store)
         {
             _todoStore = store;
         }
@@ -17,29 +17,35 @@ namespace TodoList.Controllers
             var todos = _todoStore.GetAllTodos();
             return View(todos);
         }
-        public IActionResult Add() {
+        public IActionResult Add()
+        {
             return View();
         }
         [HttpPost]
-        public IActionResult Add(TodoItem todo) {
+        public IActionResult Add(TodoItem todo)
+        {
             todo.Id = _todoStore.GetItemId();
-            if (ModelState.IsValid) { 
-              _todoStore.AddOrUpdateTodoItem(todo);
-               return View();
+            if (ModelState.IsValid)
+            {
+                _todoStore.AddOrUpdateTodoItem(todo);
+                return View();
             }
             return View(todo);
         }
         public IActionResult Edit(int id)
         {
-            if (id == null || id == 0) { 
+            if (id == null || id == 0)
+            {
                 return NotFound();
             }
             var todo = _todoStore.GetTodoById(id);
-            if (todo == null) {
+            if (todo == null)
+            {
                 return NotFound();
             }
             return View(todo);
         }
+
         [HttpPost]
         public IActionResult Edit(TodoItem todo)
         {
@@ -51,13 +57,15 @@ namespace TodoList.Controllers
             return RedirectToAction("Index");
         }
 
-        [Route("/Todo/Delete/{id}")]
-        public IActionResult Delete(int id) {
+        //[Route("/Todo/Delete/{id}")]
+        public IActionResult Delete(int id)
+        {
             _todoStore.DeleteTodo(id);
             return RedirectToAction("Index");
         }
-        [Route("/Todo/HandleIsDone/{item}")]
-        public IActionResult HandleIsDone(string item) {
+        //[Route("/Todo/HandleIsDone/{item}")]
+        public IActionResult HandleIsDone(string item)
+        {
             _todoStore.HandleIsDone(item);
             return RedirectToAction("Index");
         }

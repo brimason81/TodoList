@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using TodoList.Data;
 using TodoList.store;
 
@@ -9,7 +10,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => { 
     
 });
-builder.Services.AddSingleton<TodoStore>(new TodoStore());
+builder.Services.AddSingleton<ITodoStore>(new TodoStore());
+//builder.Services.AddTransient<TodoStore>();
+//builder.Services.AddScoped<TodoStore>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
