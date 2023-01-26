@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Deleted.TodoItems\" />
     <Folder Include="wwwroot\TodoItems\" />
   </ItemGroup>
 

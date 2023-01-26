@@ -29,13 +29,15 @@
 				{
 					<tr>
 						<td width="40%">
+							
 							@if (@item.IsDone)
 							{
-								<div class="completed" >@item.Item</div>
+								<div class="completed" >@item.Id @item.Item</div>
 							} else
 							{
-								<div>@item.Item</div>
+								<div>@item.Id @item.Item</div>
 							}
+							
 						</td>
 						<td width="25%">
 							@item.IsDone

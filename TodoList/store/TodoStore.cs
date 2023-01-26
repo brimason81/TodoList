@@ -15,7 +15,7 @@ namespace TodoList.store
         public int GetItemId()
         {
             int id;
-            if (GetAllTodos().Count() < 1)
+            if (GetAllTodos().Count < 1)
             {
                 id = 1;
             }
@@ -40,16 +40,29 @@ namespace TodoList.store
 
             }
         }
-        public string GetOrCreateDirectory()
+        private string GetOrCreateDirectory()
         {
             var folder = Path.Combine(_path, "TodoItems");
             if (!Directory.Exists(folder)) { Directory.CreateDirectory(folder); }
             return folder;
         }
-        public string GetPathForItem(string item)
+
+        private string GetOrCreateDeletedFolder()
+        {
+            var folder = Path.Combine(_path, "Deleted.TodoItems");
+            if (!Directory.Exists(folder)) { Directory.CreateDirectory(folder); }
+            return folder;
+        }
+        private string GetPathForItem(string item)
         {
             var folder = GetOrCreateDirectory();
             var fileName = Path.Combine(folder, $"{item}.txt");
+            return fileName;
+        }
+        private string GetDeletedPathForItem(string item)
+        {
+            var folder = GetOrCreateDeletedFolder();
+            var fileName = Path.Combine(folder, $"DELETED.{item}.txt");
             return fileName;
         }
         public List<TodoItem> GetAllTodos()
@@ -63,7 +76,7 @@ namespace TodoList.store
             }
             return todos;
         }
-        public TodoItem GetTodo(string path)
+        private TodoItem GetTodo(string path)
         {
             var content = File.ReadAllText(path);
             return _serializer.Deserialize<TodoItem>(content);
@@ -82,9 +95,12 @@ namespace TodoList.store
         }
         public void DeleteTodo(int id)
         {
+            // get item
             var todo = GetTodoById(id);
-            var file = GetPathForItem(todo.Item);
-            if (File.Exists(file)) File.Delete(file);
+
+            // move to deleted directory
+            Directory.Move(GetPathForItem(todo.Item), GetDeletedPathForItem(todo.Item));
+
         }
         public void HandleIsDone(string item)
         {

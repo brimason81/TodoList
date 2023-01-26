@@ -1,5 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+//  TODO:  BUG FIX ON DELETE - ID CHECK NOT QUITE RIGHT
+//                           - COULD BE BECAUSE EDIT WILL DUPLICATE AN ITEM IF CHECKED MULITPLE TIMES
+//
+
 using TodoList.Data;
 using TodoList.store;
 
@@ -11,8 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
     
 });
 builder.Services.AddSingleton<ITodoStore>(new TodoStore());
-//builder.Services.AddTransient<TodoStore>();
-//builder.Services.AddScoped<TodoStore>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
